@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+group 'at.technikum_wien.if18b072'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.14
+
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls' ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+mainClassName = 'at.technikum_wien.if18b072.HelloFX'
