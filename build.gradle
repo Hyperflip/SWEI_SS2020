@@ -8,6 +8,7 @@ group 'at.technikum_wien.if18b072'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.14
+targetCompatibility = 1.14
 
 javafx {
     version = "14"
