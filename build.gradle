@@ -11,7 +11,7 @@ sourceCompatibility = 1.14
 
 javafx {
     version = "14"
-    modules = [ 'javafx.controls' ]
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 repositories {
@@ -22,4 +22,4 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-mainClassName = 'at.technikum_wien.if18b072.HelloFX'
+mainClassName = 'at.technikum_wien.if18b072.MainApp'
