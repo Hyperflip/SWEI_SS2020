@@ -1,3 +1,8 @@
 .label {
     -fx-text-fill: blue;
 }
+
+#rootPane {
+    -fx-pref-height: 400.0;
+    -fx-pref-width: 600.0;
+}

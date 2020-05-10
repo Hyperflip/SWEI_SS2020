@@ -2,10 +2,103 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
 
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.technikum_wien.if18b072.FXMLController">
-   <children>
-      <Label fx:id="label" text="Label" />
-   </children>
-</StackPane>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="at.technikum_wien.if18b072.FXMLController">
+
+   <top>
+
+      <VBox>
+
+         <MenuBar fx:id="topMenuBar">
+
+            <Menu text="File">
+               <MenuItem text="myItem"/>
+            </Menu>
+
+            <Menu text="Edit">
+               <MenuItem text="myItem"/>
+            </Menu>
+
+            <Menu text="Options">
+               <MenuItem text="myItem"/>
+            </Menu>
+
+            <Menu text="Help">
+               <MenuItem text="myItem"/>
+            </Menu>
+
+         </MenuBar>
+
+         <TextField fx:id="searchBar">
+
+         </TextField>
+
+      </VBox>
+
+   </top>
+
+
+
+
+   <center>
+
+      <SplitPane orientation="VERTICAL">
+
+         <SplitPane orientation="HORIZONTAL">
+
+            <AnchorPane fx:id="imgPrevContainer" minWidth="100" minHeight="100">
+               <ImageView fx:id="imgPreview" preserveRatio="true" managed="false"/>
+            </AnchorPane>
+
+            <TabPane minWidth="-Infinity">
+
+               <Tab text="IPTC" closable="false">
+
+               </Tab>
+
+               <Tab text="EXIF" closable="false">
+
+               </Tab>
+
+               <Tab text="Photographer" closable="false">
+
+               </Tab>
+
+            </TabPane>
+
+         </SplitPane>
+
+         <ScrollPane fx:id="imgScrollPane" hbarPolicy="ALWAYS" vbarPolicy="NEVER" />
+
+      </SplitPane>
+
+   </center>
+
+
+   <Label fx:id="label"/>
+
+   <bottom>
+      <Button fx:id="button"/>
+   </bottom>
+
+</BorderPane>
