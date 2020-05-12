@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MockPictureModels {
-    private List<PictureModel> pictureModels = new ArrayList<PictureModel>();
+    private List<PictureViewModel> pictureViewModels = new ArrayList<PictureViewModel>();
 
     public MockPictureModels() {
 
@@ -16,16 +16,16 @@ public class MockPictureModels {
 
         assert files != null;
         for(File file : files) {
-            PictureModel pm = new PictureModel(file.getPath());
+            PictureModel pm = new PictureModel(file.getAbsolutePath());
             pm.setExif(new HashMap<>(){{
-                put("auhtor", "philipp");
+                put("author", "philipp");
                 put("date", "10.05.2020");
             }});
-            this.pictureModels.add(pm);
+            this.pictureViewModels.add(new PictureViewModel(pm));
         }
     }
 
-    public List<PictureModel> getAllPictureModels() {
-        return this.pictureModels;
+    public List<PictureViewModel> getAllPictureViewModels() {
+        return this.pictureViewModels;
     }
 }

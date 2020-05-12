@@ -1,5 +1,6 @@
-Philipp Andert		02.05.2020		Research	1h
-Philipp Andert		06.05.2020		Training	1h
-Philipp Andert		07.05.2020		GUI-Outline	1h
-Philipp Andert		10.05.2020		PictureModel	1.30h
+Philipp Andert		02.05.2020		Research		1h
+Philipp Andert		06.05.2020		Training		1h
+Philipp Andert		07.05.2020		GUI-Outline		1h
+Philipp Andert		10.05.2020		PictureModel		1.30h
 						Mockup Impl.
+Philipp Andert		12.05.2020		Picture Loading		1h
