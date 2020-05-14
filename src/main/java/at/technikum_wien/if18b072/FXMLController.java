@@ -64,7 +64,6 @@ public class FXMLController implements Initializable {
         }
         imgPreview.setImage(image);
 
-
     }
 
     private void fillScrollPane() {

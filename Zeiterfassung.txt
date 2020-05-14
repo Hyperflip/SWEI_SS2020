@@ -4,3 +4,4 @@ Philipp Andert		07.05.2020		GUI-Outline		1h
 Philipp Andert		10.05.2020		PictureModel		1.30h
 						Mockup Impl.
 Philipp Andert		12.05.2020		Picture Loading		1h
+Philipp Andert		14.05.2020		Fix Pic Models		1h

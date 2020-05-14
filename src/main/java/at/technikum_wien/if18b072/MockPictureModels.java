@@ -17,10 +17,6 @@ public class MockPictureModels {
         assert files != null;
         for(File file : files) {
             PictureModel pm = new PictureModel(file.getAbsolutePath());
-            pm.setExif(new HashMap<>(){{
-                put("author", "philipp");
-                put("date", "10.05.2020");
-            }});
             this.pictureViewModels.add(new PictureViewModel(pm));
         }
     }
