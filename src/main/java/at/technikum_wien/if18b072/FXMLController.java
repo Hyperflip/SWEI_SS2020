@@ -1,7 +1,10 @@
 package at.technikum_wien.if18b072;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+
+import javax.imageio.ImageIO;
 
 public class FXMLController implements Initializable {
 
@@ -72,7 +77,7 @@ public class FXMLController implements Initializable {
 
             System.out.println(pvm.pathProperty.getValue());
 
-            Image img = new Image("file:///" + pvm.pathProperty.getValue());
+            Image img = new Image("file:" + pvm.pathProperty.getValue());
             ImageView imgView = new ImageView(img);
             imgView.setFitWidth(200);
             imgView.setPreserveRatio(true);

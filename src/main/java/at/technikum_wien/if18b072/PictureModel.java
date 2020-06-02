@@ -4,8 +4,8 @@ public class PictureModel {
     // relative path to the image file
     private String path;
     // EXIF data
-    private int focalRatio;         // aka f-number
-    private int exposureTime;       // exposure time
+    String focalRatio;              // aka f-number
+    private String exposureTime;    // exposure time in seconds
     private String orientation;     // img orientation
     private String make;            // camera manufacturer
     private String model;           // camera model
@@ -16,6 +16,12 @@ public class PictureModel {
     private String byLine;          // author name
     private String caption;         // img caption
 
+    public PictureModel() {}
+
+    public PictureModel(String path) {
+        this.setPath(path);
+    }
+
     // getters and setters
     public String getPath() {
         return path;
@@ -25,19 +31,19 @@ public class PictureModel {
         this.path = path;
     }
 
-    public int getFocalRatio() {
+    public String getFocalRatio() {
         return focalRatio;
     }
 
-    public void setFocalRatio(int focalRatio) {
+    public void setFocalRatio(String focalRatio) {
         this.focalRatio = focalRatio;
     }
 
-    public int getExposureTime() {
+    public String getExposureTime() {
         return exposureTime;
     }
 
-    public void setExposureTime(int exposureTime) {
+    public void setExposureTime(String exposureTime) {
         this.exposureTime = exposureTime;
     }
 
