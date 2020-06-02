@@ -42,8 +42,10 @@ public class PictureViewModel {
         updateProperties();
     }
 
-    // this function is called once an image gets edited, I guess?
-    // TODO: better comments
+    public void setPictureModel(PictureModel picture) {
+        this.picture = picture;
+    }
+
     public void updateProperties() {
         pathProperty.set(picture.getPath());
 

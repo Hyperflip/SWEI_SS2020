@@ -7,3 +7,4 @@ Philipp Andert		12.05.2020		Picture Loading		1h
 Philipp Andert		14.05.2020		Fix Pic Models		1h
 Philipp Andert		31.05.2020		Proper Mock		1h
 						& Image Loading
+Philipp Andert		02.06.2020		Thumbnail creation	2.30h

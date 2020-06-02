@@ -19,8 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
-import javax.imageio.ImageIO;
-
 public class FXMLController implements Initializable {
 
     @FXML
@@ -38,12 +36,41 @@ public class FXMLController implements Initializable {
     @FXML
     private Button button;
 
-    private MockPictureModels mpm;
+    private List<PictureModel> pictures;
+    private List<ThumbnailViewModel> thumbnailViewModels = new ArrayList<ThumbnailViewModel>();
+
+    private void loadThumbnails() {
+        for(PictureModel picture : pictures) {
+            thumbnailViewModels.add(new ThumbnailViewModel(new ThumbnailFactory(picture).getThumbnailModel()));
+        }
+    }
+
+    private void loadPicturesFromMock() {
+        this.pictures = new MockPictureModels().getPictureModels();
+    }
+
+    // TODO:
+    // private void loadPicturesFromDB() {}
+
+    private void fillScrollPane() {
+
+        for(ThumbnailViewModel thvm : thumbnailViewModels) {
+
+            System.out.println(thvm.pathProperty.getValue());
+
+            Image img = new Image("file:" + thvm.pathProperty.getValue());
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(200);
+            imgView.setPreserveRatio(true);
+
+            imgScrollPaneHBox.getChildren().add(imgView);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // test shit
+        // test stuff
         String javaVersion = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
 
@@ -51,11 +78,24 @@ public class FXMLController implements Initializable {
         button.setText("Click me!");
         button.setOnAction(this::myClickEvent);
 
+        /*
+        1. load list of PictureModels (from db, mock, etc.)
+        3. create list of ThumbnailViewModels
+        3. fill scrollpane with images (ThumbnailViewModel)
+        4. initialize PictureViewModel for the image preview (first picture in list)
+           (this includes binding properties to text fields in EXIF, IPTC, Photographer panes)
+        5. initialization done... handle events from now on
+        */
 
-        // get mock pictures
-        this.mpm = new MockPictureModels();
 
-        this.fillScrollPane();
+        // 1. LOAD PICTURES
+        loadPicturesFromMock();
+
+        // 2. CREATE THUMBNAILS
+        loadThumbnails();
+
+        // 3. FILL SCROLLPANE WITH THUMBNAILS
+        fillScrollPane();
 
         // img preview
         imgPreview.fitWidthProperty().bind(imgPrevContainer.widthProperty());
@@ -69,21 +109,6 @@ public class FXMLController implements Initializable {
         }
         imgPreview.setImage(image);
 
-    }
-
-    private void fillScrollPane() {
-
-        for(PictureViewModel pvm : this.mpm.getAllPictureViewModels()) {
-
-            System.out.println(pvm.pathProperty.getValue());
-
-            Image img = new Image("file:" + pvm.pathProperty.getValue());
-            ImageView imgView = new ImageView(img);
-            imgView.setFitWidth(200);
-            imgView.setPreserveRatio(true);
-
-            this.imgScrollPaneHBox.getChildren().add(imgView);
-        }
     }
 
     private void myClickEvent(Event e) {

@@ -1,17 +1,15 @@
 package at.technikum_wien.if18b072;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import static at.technikum_wien.if18b072.Constants.*;
 
 public class MockPictureModels {
-    private List<PictureViewModel> pictureViewModels = new ArrayList<PictureViewModel>();
+    private List<PictureModel> pictures = new ArrayList<PictureModel>();
 
     public MockPictureModels() {
 
-        PictureModel pic1 = new PictureModel("src/main/resources/at/technikum_wien/if18b072/stock_images/architecture.png");
+        PictureModel pic1 = new PictureModel(IMAGES_PATH_REL + "architecture.png");
         // exif
         pic1.setFocalRatio("f/1.4");
         pic1.setExposureTime("1/659 s");
@@ -25,7 +23,7 @@ public class MockPictureModels {
         pic1.setByLine("Philipp Andert");
         pic1.setCaption("Wunderschöne Fassade");
 
-        PictureModel pic2 = new PictureModel("src/main/resources/at/technikum_wien/if18b072/stock_images/hotel.png");
+        PictureModel pic2 = new PictureModel(IMAGES_PATH_REL + "hotel.png");
         // exif
         pic2.setFocalRatio("f/1.6");
         pic2.setExposureTime("1/500 s");
@@ -39,7 +37,7 @@ public class MockPictureModels {
         pic2.setByLine("Philipp Andert");
         pic2.setCaption("Wunderschönes Hotel");
 
-        PictureModel pic3 = new PictureModel("src/main/resources/at/technikum_wien/if18b072/stock_images/meditating.png");
+        PictureModel pic3 = new PictureModel(IMAGES_PATH_REL + "meditating.png");
         // exif
         pic3.setFocalRatio("f/1.5");
         pic3.setExposureTime("1/472 s");
@@ -53,7 +51,7 @@ public class MockPictureModels {
         pic3.setByLine("Philipp Andert");
         pic3.setCaption("Wunderschöner Mönch");
 
-        PictureModel pic4 = new PictureModel("src/main/resources/at/technikum_wien/if18b072/stock_images/restaurant.png");
+        PictureModel pic4 = new PictureModel(IMAGES_PATH_REL + "restaurant.png");
         // exif
         pic4.setFocalRatio("f/1.4");
         pic4.setExposureTime("1/665 s");
@@ -67,7 +65,7 @@ public class MockPictureModels {
         pic4.setByLine("Philipp Andert");
         pic4.setCaption("Wunderschönes Restaurant");
 
-        PictureModel pic5 = new PictureModel("src/main/resources/at/technikum_wien/if18b072/stock_images/savings.png");
+        PictureModel pic5 = new PictureModel(IMAGES_PATH_REL + "savings.png");
         // exif
         pic5.setFocalRatio("f/1.6");
         pic5.setExposureTime("1/501 s");
@@ -81,14 +79,14 @@ public class MockPictureModels {
         pic5.setByLine("Philipp Andert");
         pic5.setCaption("Wunderschönes Sparschwein");
 
-        this.pictureViewModels.add(new PictureViewModel(pic1));
-        this.pictureViewModels.add(new PictureViewModel(pic2));
-        this.pictureViewModels.add(new PictureViewModel(pic3));
-        this.pictureViewModels.add(new PictureViewModel(pic4));
-        this.pictureViewModels.add(new PictureViewModel(pic5));
+        this.pictures.add(pic1);
+        this.pictures.add(pic2);
+        this.pictures.add(pic3);
+        this.pictures.add(pic4);
+        this.pictures.add(pic5);
     }
 
-    public List<PictureViewModel> getAllPictureViewModels() {
-        return this.pictureViewModels;
+    public List<PictureModel> getPictureModels() {
+        return this.pictures;
     }
 }
