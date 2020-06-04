@@ -9,36 +9,27 @@ import static at.technikum_wien.if18b072.Constants.*;
 
 public class ThumbnailFactory {
 
-    private final ThumbnailModel thumbnailModel;
-    private final String inputPath;
-    private final String outputPath;
-    private final String extension;
+    public ThumbnailModel getThumbnailModel(String inputPath) {
 
-    public ThumbnailFactory(PictureModel picture) {
-        inputPath = picture.getPath();
-        outputPath = THUMBS_PATH_REL + inputPath.substring(IMAGES_PATH_REL.length());
-        extension = picture.getFileFormat();
+        String outputPath = THUMBS_PATH_REL + inputPath.substring(IMAGES_PATH_REL.length());
+        String extension = inputPath.substring(inputPath.lastIndexOf(".") + 1);
 
         // look for thumbnail
         if(!new File(outputPath).exists()) {
             // create new thumbnail if none exists yet
             try {
-                createThumbnail();
+                createThumbnail(inputPath, outputPath, extension);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        // create new ThumbnailModel
-        thumbnailModel = new ThumbnailModel(outputPath, inputPath, extension);
-    }
-
-    public ThumbnailModel getThumbnailModel() {
-        return thumbnailModel;
+        // return ThumbnailModel
+        return new ThumbnailModel(outputPath, inputPath, extension);
     }
 
     // creates a thumbnail image scaled by 0.25
-    private void createThumbnail() throws Exception {
+    private void createThumbnail(String inputPath, String outputPath, String extension) throws Exception {
         try {
             // create file from input path
             File inputFile = new File(inputPath);

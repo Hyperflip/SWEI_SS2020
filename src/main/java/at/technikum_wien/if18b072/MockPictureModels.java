@@ -89,4 +89,22 @@ public class MockPictureModels {
     public List<PictureModel> getPictureModels() {
         return this.pictures;
     }
+
+    public PictureModel getPictureModelFromPath(String path) {
+        // find picture with given path
+        for(PictureModel pm : pictures) {
+            if(path.equals(pm.getPath())) {
+                return pm;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        for(PictureModel pm : pictures) {
+            paths.add(pm.getPath());
+        }
+        return paths;
+    }
 }

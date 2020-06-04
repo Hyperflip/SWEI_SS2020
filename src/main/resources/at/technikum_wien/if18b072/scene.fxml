@@ -66,8 +66,8 @@
 
          <SplitPane orientation="HORIZONTAL">
 
-            <AnchorPane fx:id="imgPrevContainer" minWidth="100" minHeight="100">
-               <ImageView fx:id="imgPreview" preserveRatio="true" managed="false"/>
+            <AnchorPane fx:id="imgActiveContainer" minWidth="100" minHeight="100">
+               <ImageView fx:id="imgActive" preserveRatio="true" managed="false"/>
             </AnchorPane>
 
             <TabPane minWidth="-Infinity">

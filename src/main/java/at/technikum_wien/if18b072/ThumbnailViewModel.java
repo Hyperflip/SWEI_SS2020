@@ -7,6 +7,7 @@ public class ThumbnailViewModel {
     public SimpleStringProperty parentPicturePathProperty;
     public SimpleStringProperty pathProperty;
 
+    // HINT: passing the ThumbnailModel to the constructor does NOT save the model (good/bad?)
     public ThumbnailViewModel(ThumbnailModel thumbnail) {
         parentPicturePathProperty = new SimpleStringProperty();
         pathProperty = new SimpleStringProperty();

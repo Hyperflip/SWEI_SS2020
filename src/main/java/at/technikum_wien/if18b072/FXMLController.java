@@ -11,11 +11,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
@@ -26,11 +28,13 @@ public class FXMLController implements Initializable {
     @FXML
     public TextField searchBar;
     @FXML
-    public ImageView imgPreview;
+    public ImageView imgActive;
     @FXML
-    public AnchorPane imgPrevContainer;
+    public AnchorPane imgActiveContainer;
     @FXML
     public HBox imgScrollPaneHBox;
+
+    // test labels
     @FXML
     private Label label;
     @FXML
@@ -39,10 +43,20 @@ public class FXMLController implements Initializable {
     private List<PictureModel> pictures;
     private List<ThumbnailViewModel> thumbnailViewModels = new ArrayList<ThumbnailViewModel>();
 
-    private void loadThumbnails() {
-        for(PictureModel picture : pictures) {
-            thumbnailViewModels.add(new ThumbnailViewModel(new ThumbnailFactory(picture).getThumbnailModel()));
-        }
+    private PictureViewModel activePictureViewModel;
+
+    private void prepareUI() {
+
+        // generic test stuff
+        String javaVersion = System.getProperty("java.version");
+        String javafxVersion = System.getProperty("javafx.version");
+        label.setText("Hello, JavaFX " + javafxVersion + "\nRunning on Java " + javaVersion + ".");
+        button.setText("Click me!");
+        button.setOnAction(this::myClickEvent);
+
+        // bind size of active images's ImageView to its container's size
+        imgActive.fitWidthProperty().bind(imgActiveContainer.widthProperty());
+        imgActive.fitHeightProperty().bind(imgActiveContainer.heightProperty());
     }
 
     private void loadPicturesFromMock() {
@@ -52,6 +66,12 @@ public class FXMLController implements Initializable {
     // TODO:
     // private void loadPicturesFromDB() {}
 
+    private void loadThumbnails() {
+        for(String path : new MockPictureModels().getAllPaths()) {
+            thumbnailViewModels.add(new ThumbnailViewModel(new ThumbnailFactory().getThumbnailModel(path)));
+        }
+    }
+
     private void fillScrollPane() {
 
         for(ThumbnailViewModel thvm : thumbnailViewModels) {
@@ -60,56 +80,83 @@ public class FXMLController implements Initializable {
 
             Image img = new Image("file:" + thvm.pathProperty.getValue());
             ImageView imgView = new ImageView(img);
+            imgView.getStyleClass().add("thumb-view");
             imgView.setFitWidth(200);
             imgView.setPreserveRatio(true);
+
+            // TODO: implement proper EventHandler class
+            imgView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                // set new PictureModel for the active ViewModel
+                activePictureViewModel.setPictureModel(
+                        // create new PictureModel
+                        new PictureModel(
+                                // from this ThumbnailViewModel's parent picture path
+                                thvm.parentPicturePathProperty.getValue()));
+
+                // update active ViewModel's properties based on its new picture
+                activePictureViewModel.updateProperties();
+                // update UI elements (ImageView, etc.)
+                updateActiveImage();
+
+                event.consume();
+            });
 
             imgScrollPaneHBox.getChildren().add(imgView);
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    private void initializeActivePicture() {
 
-        // test stuff
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
+        // set activePictureViewModel
+        activePictureViewModel = new PictureViewModel(
+                // create new PictureModel
+                new PictureModel(
+                        // from first thumbnail's
+                        thumbnailViewModels.get(0)
+                                // parent picture path
+                                .parentPicturePathProperty.getValue()
+                )
+        );
 
-        label.setText("Hello, JavaFX " + javafxVersion + "\nRunning on Java " + javaVersion + ".");
-        button.setText("Click me!");
-        button.setOnAction(this::myClickEvent);
+        updateActiveImage();
+    }
 
-        /*
-        1. load list of PictureModels (from db, mock, etc.)
-        3. create list of ThumbnailViewModels
-        3. fill scrollpane with images (ThumbnailViewModel)
-        4. initialize PictureViewModel for the image preview (first picture in list)
-           (this includes binding properties to text fields in EXIF, IPTC, Photographer panes)
-        5. initialization done... handle events from now on
-        */
-
-
-        // 1. LOAD PICTURES
-        loadPicturesFromMock();
-
-        // 2. CREATE THUMBNAILS
-        loadThumbnails();
-
-        // 3. FILL SCROLLPANE WITH THUMBNAILS
-        fillScrollPane();
-
-        // img preview
-        imgPreview.fitWidthProperty().bind(imgPrevContainer.widthProperty());
-        imgPreview.fitHeightProperty().bind(imgPrevContainer.heightProperty());
-
+    private void updateActiveImage() {
         Image image = null;
         try {
-            image = new Image(new FileInputStream("glass_orb.png"));
+            image = new Image(new FileInputStream(activePictureViewModel.pathProperty.getValue()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        imgPreview.setImage(image);
+        imgActive.setImage(image);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        prepareUI();
+
+        /*
+        1. load PATHS of PictureModels (from db, mock, etc.)
+           create list of ThumbnailViewModels
+        2. fill scrollpane with images (ThumbnailViewModel)
+        3. initialize PictureViewModel for the image preview (first picture in list)
+           (this includes binding properties to text fields in EXIF, IPTC, Photographer panes)
+        */
+
+        // 1. CREATE THUMBNAILS
+        loadThumbnails();
+
+        // 2. FILL SCROLLPANE WITH THUMBNAILS
+        fillScrollPane();
+
+        // 3. initialize activePictureViewModel
+        // and updateActiveImage (in UI)
+        initializeActivePicture();
 
     }
+
+    // TODO: hey, später gibst du in andere Ding rein (... Klasse)
 
     private void myClickEvent(Event e) {
         System.out.println("You clicked the button!");
