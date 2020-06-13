@@ -1,17 +1,16 @@
 package at.technikum_wien.if18b072;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+
+import at.technikum_wien.if18b072.models.PictureModel;
+import at.technikum_wien.if18b072.models.PictureViewModel;
+import at.technikum_wien.if18b072.models.ThumbnailViewModel;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -67,16 +66,19 @@ public class FXMLController implements Initializable {
     // private void loadPicturesFromDB() {}
 
     private void loadThumbnails() {
+        ThumbnailFactory thf = new ThumbnailFactory();
         for(String path : new MockPictureModels().getAllPaths()) {
-            thumbnailViewModels.add(new ThumbnailViewModel(new ThumbnailFactory().getThumbnailModel(path)));
+            thumbnailViewModels.add(
+                    new ThumbnailViewModel(
+                            thf.getThumbnailModel(path)
+                    )
+            );
         }
     }
 
     private void fillScrollPane() {
 
         for(ThumbnailViewModel thvm : thumbnailViewModels) {
-
-            System.out.println(thvm.pathProperty.getValue());
 
             Image img = new Image("file:" + thvm.pathProperty.getValue());
             ImageView imgView = new ImageView(img);
@@ -92,6 +94,13 @@ public class FXMLController implements Initializable {
                         new PictureModel(
                                 // from this ThumbnailViewModel's parent picture path
                                 thvm.parentPicturePathProperty.getValue()));
+
+
+                /* ONCE DATABASE WORKS
+                activePictureViewModel.setPictureModel(
+                        DabaseService.getPictureModelFromPath(
+                                thvm.parentPicturePathProperty.getValue());
+                */
 
                 // update active ViewModel's properties based on its new picture
                 activePictureViewModel.updateProperties();
@@ -117,6 +126,15 @@ public class FXMLController implements Initializable {
                                 .parentPicturePathProperty.getValue()
                 )
         );
+
+        /* ONCE DATABASE WORKS
+        activePictureViewModel = new PictureViewModel(
+               DatabaseService.getPictureModelFromPath(
+                        thumbnailViewModels.get(0)
+                                .parentPicturePathProperty.getValue()
+               )
+        );
+         */
 
         updateActiveImage();
     }

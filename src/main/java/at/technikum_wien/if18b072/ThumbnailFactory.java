@@ -1,5 +1,7 @@
 package at.technikum_wien.if18b072;
 
+import at.technikum_wien.if18b072.models.ThumbnailModel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

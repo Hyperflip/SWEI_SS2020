@@ -1,5 +1,6 @@
 package at.technikum_wien.if18b072;
 
+import at.technikum_wien.if18b072.database.SQLiteService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
+        Constants.DATABASE = new SQLiteService();
         launch(args);
     }
 

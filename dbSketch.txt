@@ -1,0 +1,26 @@
+pictures
+--------------------
+path_pk
+photographerID_fk
+
+focal ratio
+exposure time
+orientation
+make (cam manufacturer)
+model (cam model)
+
+file format
+date created
+country (of origin)
+by line (author)
+caption
+
+photographers
+--------------------
+photographerID_pk
+
+first name
+last name
+email
+birthday
+notes

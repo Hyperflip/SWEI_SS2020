@@ -1,5 +1,7 @@
 package at.technikum_wien.if18b072;
 
+import at.technikum_wien.if18b072.models.PictureModel;
+
 import java.util.ArrayList;
 import java.util.List;
 import static at.technikum_wien.if18b072.Constants.*;

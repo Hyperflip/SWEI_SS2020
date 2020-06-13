@@ -1,15 +1,17 @@
-package at.technikum_wien.if18b072;
+package at.technikum_wien.if18b072.models;
 
 public class PictureModel {
     // relative path to the image file
-    private String path;
+    private String path;            // PRIMARY key in database
+    // has get and set access, as the photographer can be changed
+    private int photographerID;     // FOREIGN key in database
     // EXIF data
     String focalRatio;              // aka f-number
     private String exposureTime;    // exposure time in seconds
     private String orientation;     // img orientation
     private String make;            // camera manufacturer
     private String model;           // camera model
-    // IPTC DATA
+    // IPTC Data
     private String fileFormat;      // img file format
     private String dateCreated;     // img creation date
     private String country;         // origin country
@@ -109,5 +111,13 @@ public class PictureModel {
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public int getPhotographerID() {
+        return photographerID;
+    }
+
+    public void setPhotographerID(int photographerID) {
+        this.photographerID = photographerID;
     }
 }

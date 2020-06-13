@@ -1,7 +1,6 @@
-package at.technikum_wien.if18b072;
+package at.technikum_wien.if18b072.models;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleMapProperty;
+import at.technikum_wien.if18b072.models.PictureModel;
 import javafx.beans.property.SimpleStringProperty;
 
 public class PictureViewModel {

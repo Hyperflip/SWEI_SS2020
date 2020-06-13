@@ -1,5 +1,6 @@
-package at.technikum_wien.if18b072;
+package at.technikum_wien.if18b072.models;
 
+import at.technikum_wien.if18b072.models.ThumbnailModel;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ThumbnailViewModel {
