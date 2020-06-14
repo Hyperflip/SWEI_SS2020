@@ -1,5 +1,6 @@
 package at.technikum_wien.if18b072;
 
+import at.technikum_wien.if18b072.models.PhotographerModel;
 import at.technikum_wien.if18b072.models.PictureModel;
 
 import java.util.ArrayList;
@@ -11,8 +12,24 @@ public class MockPictureModels {
 
     public MockPictureModels() {
 
+        PhotographerModel phot1 = new PhotographerModel();
+        phot1.setPhotographerEmail("andert.philipp@gmail.com");
+        phot1.setFirstName("Philipp");
+        phot1.setLastName("Andert");
+        phot1.setBirthday("1999-01-15");
+        phot1.setNotes("Genius. Ahead of our time. ~New York Times");
+
+        PhotographerModel phot2 = new PhotographerModel();
+        phot2.setPhotographerEmail("fredi.emsenhuber@live.at");
+        phot2.setFirstName("Alfred");
+        phot2.setLastName("Emsenhuber");
+        phot2.setBirthday("1996-10-18");
+        phot2.setNotes("This is outrageous, it's unfair. How can he " +
+                "be on the photographer's council but not a genius?");
+
         PictureModel pic1 = new PictureModel(IMAGES_PATH_REL + "architecture.png");
         // exif
+        pic1.setPhotographerEmail("andert.philipp@gmail.com");
         pic1.setFocalRatio("f/1.4");
         pic1.setExposureTime("1/659 s");
         pic1.setOrientation("top-left");
@@ -27,6 +44,7 @@ public class MockPictureModels {
 
         PictureModel pic2 = new PictureModel(IMAGES_PATH_REL + "hotel.png");
         // exif
+        pic2.setPhotographerEmail("fredi.emsenhuber@live.at");
         pic2.setFocalRatio("f/1.6");
         pic2.setExposureTime("1/500 s");
         pic2.setOrientation("top-left");
@@ -41,6 +59,7 @@ public class MockPictureModels {
 
         PictureModel pic3 = new PictureModel(IMAGES_PATH_REL + "meditating.png");
         // exif
+        pic3.setPhotographerEmail("andert.philipp@gmail.com");
         pic3.setFocalRatio("f/1.5");
         pic3.setExposureTime("1/472 s");
         pic3.setOrientation("top-left");
@@ -55,6 +74,7 @@ public class MockPictureModels {
 
         PictureModel pic4 = new PictureModel(IMAGES_PATH_REL + "restaurant.png");
         // exif
+        pic4.setPhotographerEmail("fredi.emsenhuber@live.at");
         pic4.setFocalRatio("f/1.4");
         pic4.setExposureTime("1/665 s");
         pic4.setOrientation("top-left");
@@ -69,6 +89,7 @@ public class MockPictureModels {
 
         PictureModel pic5 = new PictureModel(IMAGES_PATH_REL + "savings.png");
         // exif
+        pic5.setPhotographerEmail("andert.philipp@gmail.com");
         pic5.setFocalRatio("f/1.6");
         pic5.setExposureTime("1/501 s");
         pic5.setOrientation("top-left");
@@ -86,6 +107,17 @@ public class MockPictureModels {
         this.pictures.add(pic3);
         this.pictures.add(pic4);
         this.pictures.add(pic5);
+
+        // add photographers
+        DATABASE.addNewPhotographer(phot1);
+        DATABASE.addNewPhotographer(phot2);
+        // add pictures
+        DATABASE.addNewPicture(pic1);
+        DATABASE.addNewPicture(pic2);
+        DATABASE.addNewPicture(pic3);
+        DATABASE.addNewPicture(pic4);
+        DATABASE.addNewPicture(pic5);
+
     }
 
     public List<PictureModel> getPictureModels() {

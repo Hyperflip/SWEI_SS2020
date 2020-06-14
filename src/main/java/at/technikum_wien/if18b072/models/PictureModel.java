@@ -2,21 +2,21 @@ package at.technikum_wien.if18b072.models;
 
 public class PictureModel {
     // relative path to the image file
-    private String path;            // PRIMARY key in database
+    private String path;                    // PRIMARY key in database
     // has get and set access, as the photographer can be changed
-    private int photographerID;     // FOREIGN key in database
+    private String photographerEmail;       // FOREIGN key in database
     // EXIF data
-    String focalRatio;              // aka f-number
-    private String exposureTime;    // exposure time in seconds
-    private String orientation;     // img orientation
-    private String make;            // camera manufacturer
-    private String model;           // camera model
+    String focalRatio;                      // aka f-number
+    private String exposureTime;            // exposure time in seconds
+    private String orientation;             // img orientation
+    private String make;                    // camera manufacturer
+    private String model;                   // camera model
     // IPTC Data
-    private String fileFormat;      // img file format
-    private String dateCreated;     // img creation date
-    private String country;         // origin country
-    private String byLine;          // author name
-    private String caption;         // img caption
+    private String fileFormat;              // img file format
+    private String dateCreated;             // img creation date
+    private String country;                 // origin country
+    private String byLine;                  // author name
+    private String caption;                 // img caption
 
     public PictureModel() {}
 
@@ -31,6 +31,14 @@ public class PictureModel {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getPhotographerEmail() {
+        return photographerEmail;
+    }
+
+    public void setPhotographerEmail(String photographerEmail) {
+        this.photographerEmail = photographerEmail;
     }
 
     public String getFocalRatio() {
@@ -111,13 +119,5 @@ public class PictureModel {
 
     public void setCaption(String caption) {
         this.caption = caption;
-    }
-
-    public int getPhotographerID() {
-        return photographerID;
-    }
-
-    public void setPhotographerID(int photographerID) {
-        this.photographerID = photographerID;
     }
 }

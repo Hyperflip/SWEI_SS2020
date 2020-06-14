@@ -17,10 +17,9 @@ caption
 
 photographers
 --------------------
-photographerID_pk
+email_pk
 
 first name
 last name
-email
 birthday
 notes

@@ -5,12 +5,20 @@ import java.util.Date;
 public class PhotographerModel {
 
     // only has get access, as it's an auto incrementing value in database
-    private int photographerID;     // PRIMARY key in photographers table
+    private String photographerEmail;     // PRIMARY key in photographers table
     private String firstName;
     private String lastName;
     private String email;
-    private Date birthday;
+    private String birthday;
     private String notes;
+
+    public void setPhotographerEmail(String photographerEmail) {
+        this.photographerEmail = photographerEmail;
+    }
+
+    public String getPhotographerEmail() {
+        return photographerEmail;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -36,11 +44,11 @@ public class PhotographerModel {
         this.email = email;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -50,9 +58,5 @@ public class PhotographerModel {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public int getPhotographerID() {
-        return photographerID;
     }
 }

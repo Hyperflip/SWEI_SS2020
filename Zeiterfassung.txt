@@ -10,7 +10,12 @@ Philipp Andert		31.05.2020		Proper Mock		1h
 Philipp Andert		02.06.2020		Thumbnail creation	2.30h
 Philipp Andert		04.06.2020		Image selection by
 						clicking on thumbnails	2h
-Philipp Andert		06.06.2020		18-18.15, 18.30- 18.45
 
 Philipp Andert		13.06.2020		Database connection	2.30h
 						table creation
+
+Philipp Andert		13.06.2020		created insert		0.45h
+						statements
+
+Philipp Andert		14.06.2020		fully switched to	2h
+						database + img search

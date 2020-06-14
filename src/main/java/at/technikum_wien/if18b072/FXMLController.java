@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static at.technikum_wien.if18b072.Constants.*;
 import at.technikum_wien.if18b072.models.PictureModel;
 import at.technikum_wien.if18b072.models.PictureViewModel;
 import at.technikum_wien.if18b072.models.ThumbnailViewModel;
@@ -53,6 +54,12 @@ public class FXMLController implements Initializable {
         button.setText("Click me!");
         button.setOnAction(this::myClickEvent);
 
+        // set event for searchbar
+        searchBar.setOnKeyReleased(event -> {
+            loadThumbnails();
+            updateScrollPane();
+        });
+
         // bind size of active images's ImageView to its container's size
         imgActive.fitWidthProperty().bind(imgActiveContainer.widthProperty());
         imgActive.fitHeightProperty().bind(imgActiveContainer.heightProperty());
@@ -62,12 +69,15 @@ public class FXMLController implements Initializable {
         this.pictures = new MockPictureModels().getPictureModels();
     }
 
-    // TODO:
-    // private void loadPicturesFromDB() {}
 
+    // TODO: implement search string functionality
     private void loadThumbnails() {
+
+        // clear
+        thumbnailViewModels.clear();
+
         ThumbnailFactory thf = new ThumbnailFactory();
-        for(String path : new MockPictureModels().getAllPaths()) {
+        for(String path : DATABASE.getPathsFromSearchString(searchBar.getText())) {
             thumbnailViewModels.add(
                     new ThumbnailViewModel(
                             thf.getThumbnailModel(path)
@@ -76,7 +86,10 @@ public class FXMLController implements Initializable {
         }
     }
 
-    private void fillScrollPane() {
+    private void updateScrollPane() {
+
+        // clear
+        imgScrollPaneHBox.getChildren().clear();
 
         for(ThumbnailViewModel thvm : thumbnailViewModels) {
 
@@ -90,17 +103,12 @@ public class FXMLController implements Initializable {
             imgView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                 // set new PictureModel for the active ViewModel
                 activePictureViewModel.setPictureModel(
-                        // create new PictureModel
-                        new PictureModel(
-                                // from this ThumbnailViewModel's parent picture path
-                                thvm.parentPicturePathProperty.getValue()));
-
-
-                /* ONCE DATABASE WORKS
-                activePictureViewModel.setPictureModel(
-                        DabaseService.getPictureModelFromPath(
-                                thvm.parentPicturePathProperty.getValue());
-                */
+                        // get PictureModel from database
+                        DATABASE.getPictureModelFromPath(
+                                // from the clicked thumbnails's parent picture path
+                                thvm.parentPicturePathProperty.getValue()
+                        )
+                );
 
                 // update active ViewModel's properties based on its new picture
                 activePictureViewModel.updateProperties();
@@ -115,26 +123,15 @@ public class FXMLController implements Initializable {
     }
 
     private void initializeActivePicture() {
-
         // set activePictureViewModel
         activePictureViewModel = new PictureViewModel(
-                // create new PictureModel
-                new PictureModel(
-                        // from first thumbnail's
-                        thumbnailViewModels.get(0)
-                                // parent picture path
-                                .parentPicturePathProperty.getValue()
-                )
-        );
-
-        /* ONCE DATABASE WORKS
-        activePictureViewModel = new PictureViewModel(
-               DatabaseService.getPictureModelFromPath(
+                // get PictureModel from database
+                DATABASE.getPictureModelFromPath(
+                        // from first thumbnail's parent picture path
                         thumbnailViewModels.get(0)
                                 .parentPicturePathProperty.getValue()
                )
         );
-         */
 
         updateActiveImage();
     }
@@ -166,7 +163,7 @@ public class FXMLController implements Initializable {
         loadThumbnails();
 
         // 2. FILL SCROLLPANE WITH THUMBNAILS
-        fillScrollPane();
+        updateScrollPane();
 
         // 3. initialize activePictureViewModel
         // and updateActiveImage (in UI)
