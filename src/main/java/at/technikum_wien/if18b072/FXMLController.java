@@ -20,25 +20,49 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 public class FXMLController implements Initializable {
 
+    // top menu
     @FXML
     public MenuBar topMenuBar;
+    // searchbar
     @FXML
     public TextField searchBar;
+    // active image + its container to manage size
     @FXML
     public ImageView imgActive;
     @FXML
     public AnchorPane imgActiveContainer;
+    // list of thumbnails at the bottom
     @FXML
     public HBox imgScrollPaneHBox;
-
-    // test labels
+    // iptc info
     @FXML
-    private Label label;
+    public TextField fileFormat;
     @FXML
-    private Button button;
+    public TextField dateCreated;
+    @FXML
+    public TextField country;
+    @FXML
+    public TextField byLine;
+    @FXML
+    public TextField caption;
+    // exif info
+    @FXML
+    public Text focalRatio;
+    @FXML
+    public Text exposureTime;
+    @FXML
+    public Text orientation;
+    @FXML
+    public Text make;
+    @FXML
+    public Text model;
+    // buttons
+    @FXML
+    public Button buttonSaveIPTC;
 
     private List<PictureModel> pictures;
     private List<ThumbnailViewModel> thumbnailViewModels = new ArrayList<ThumbnailViewModel>();
@@ -47,17 +71,27 @@ public class FXMLController implements Initializable {
 
     private void prepareUI() {
 
-        // generic test stuff
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        label.setText("Hello, JavaFX " + javafxVersion + "\nRunning on Java " + javaVersion + ".");
-        button.setText("Click me!");
-        button.setOnAction(this::myClickEvent);
-
         // set event for searchbar
         searchBar.setOnKeyReleased(event -> {
             loadThumbnails();
             updateScrollPane();
+        });
+
+        // set event for save iptc button
+        buttonSaveIPTC.setOnAction(event -> {
+            // picture model to be updated
+            PictureModel pm = activePictureViewModel.getPictureModel();
+            // call functions to update Picture Model IPTC info
+            pm.setFileFormat(fileFormat.getText());
+            pm.setDateCreated(dateCreated.getText());
+            pm.setCountry(country.getText());
+            pm.setByLine(byLine.getText());
+            pm.setCaption(caption.getText());
+
+            DATABASE.updatePicture(pm);
+
+            activePictureViewModel.updateProperties();
+            // this should be enough for the display to be updated?
         });
 
         // bind size of active images's ImageView to its container's size
@@ -143,7 +177,21 @@ public class FXMLController implements Initializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        // set image
         imgActive.setImage(image);
+        // set iptc info
+        fileFormat.setText(activePictureViewModel.fileFormatProperty.getValue());
+        dateCreated.setText(activePictureViewModel.dateCreatedProperty.getValue());
+        country.setText(activePictureViewModel.countryProperty.getValue());
+        byLine.setText(activePictureViewModel.byLineProperty.getValue());
+        caption.setText(activePictureViewModel.captionProperty.getValue());
+        // set exif info
+        focalRatio.setText(activePictureViewModel.focalRatioProperty.getValue());
+        exposureTime.setText(activePictureViewModel.exposureTimeProperty.getValue());
+        orientation.setText(activePictureViewModel.orientionProperty.getValue());
+        make.setText(activePictureViewModel.makeProperty.getValue());
+        model.setText(activePictureViewModel.modelProperty.getValue());
     }
 
     @Override
@@ -169,11 +217,5 @@ public class FXMLController implements Initializable {
         // and updateActiveImage (in UI)
         initializeActivePicture();
 
-    }
-
-    // TODO: hey, später gibst du in andere Ding rein (... Klasse)
-
-    private void myClickEvent(Event e) {
-        System.out.println("You clicked the button!");
     }
 }

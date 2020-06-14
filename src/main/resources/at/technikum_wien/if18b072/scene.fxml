@@ -22,6 +22,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.text.Text?>
 <BorderPane id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="at.technikum_wien.if18b072.FXMLController">
 
@@ -74,9 +75,53 @@
 
                <Tab text="IPTC" closable="false">
 
+                  <HBox>
+
+                     <VBox>
+                        <Label>File Format: </Label>
+                        <Label>Date Created: </Label>
+                        <Label>Country: </Label>
+                        <Label>By: </Label>
+                        <Label>Caption: </Label>
+
+                     </VBox>
+
+                     <VBox>
+                        <TextField fx:id="fileFormat" />
+                        <TextField fx:id="dateCreated" />
+                        <TextField fx:id="country" />
+                        <TextField fx:id="byLine" />
+                        <TextField fx:id="caption" />
+
+                        <Button fx:id="buttonSaveIPTC">Save IPTC</Button>
+                     </VBox>
+
+                  </HBox>
+
                </Tab>
 
                <Tab text="EXIF" closable="false">
+
+                  <HBox>
+
+                     <VBox>
+                        <Label>Focal Ratio: </Label>
+                        <Label>Exposure Time: </Label>
+                        <Label>Orientation: </Label>
+                        <Label>Camera Manufacturer: </Label>
+                        <Label>Camera Model</Label>
+
+                     </VBox>
+
+                     <VBox>
+                        <Text fx:id="focalRatio" />
+                        <Text fx:id="exposureTime" />
+                        <Text fx:id="orientation" />
+                        <Text fx:id="make" />
+                        <Text fx:id="model" />
+                     </VBox>
+
+                  </HBox>
 
                </Tab>
 

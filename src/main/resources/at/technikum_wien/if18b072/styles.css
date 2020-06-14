@@ -1,5 +1,6 @@
 .label {
     -fx-text-fill: blue;
+    -fx-padding: 2px;
 }
 
 #rootPane {

@@ -6,8 +6,7 @@ import at.technikum_wien.if18b072.models.PictureModel;
 import org.tinylog.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SQLiteService implements IDatabaseService {
 
@@ -38,13 +37,35 @@ public class SQLiteService implements IDatabaseService {
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // SELECT STATEMENTS
-
-    private static final String SELECT_PICTURE_PATHS_BY_NAME =
+    // selection by filename
+    private static final String SELECT_PATHS_BY_FILENAME =
             "SELECT path FROM pictures " +
                     "WHERE path LIKE ?";
 
+    // selection by camera manufacturer
+    private static final String SELECT_PATHS_BY_MAKE =
+            "SELECT path FROM pictures " +
+                    "WHERE make LIKE ?";
+
+    // selection by country
+    private static final String SELECT_PATHS_BY_COUNTRY =
+            "SELECT path FROM pictures " +
+                    "WHERE country LIKE ?";
+
+    private static final String SELECT_PATHS_BY_BYLINE =
+            "SELECT path FROM pictures " +
+                    "WHERE byLine LIKE ?";
+
+    // whole picture selection
     private static final String SELECT_PICTURE_BY_PATH =
             "SELECT * FROM pictures WHERE path = ?";
+
+    // UPDATE STATEMENTS
+
+    private static final String UPDATE_PICTURE_IPTC =
+            "UPDATE pictures " +
+                    "SET fileFormat = ?, dateCreated = ?, country = ?, byLine = ?, caption = ? " +
+                    "WHERE path = ?";
 
     private static final String DB_URL = "jdbc:sqlite:sqlite.db";
     private Connection connection;
@@ -125,6 +146,22 @@ public class SQLiteService implements IDatabaseService {
 
     @Override
     public boolean updatePicture(PictureModel picture) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(UPDATE_PICTURE_IPTC);
+            stmt.setString(1, picture.getFileFormat());
+            stmt.setString(2, picture.getDateCreated());
+            stmt.setString(3, picture.getCountry());
+            stmt.setString(4, picture.getByLine());
+            stmt.setString(5, picture.getCaption());
+            stmt.setString(6, picture.getPath());
+            stmt.execute();
+
+            Logger.debug("Successfully updated picture in database.");
+            return true;
+        } catch (SQLException e) {
+            Logger.debug("Failed at updating picture in database.");
+            Logger.trace(e);
+        }
         return false;
     }
 
@@ -133,22 +170,45 @@ public class SQLiteService implements IDatabaseService {
         return false;
     }
 
+    private ArrayList<String> getPathsFromResultSet(ResultSet rs) throws SQLException {
+        ArrayList<String> results = new ArrayList<>();
+        while(rs.next()) {
+            results.add(rs.getString("path"));
+        }
+        return results;
+    }
+
     @Override
     public ArrayList<String> getPathsFromSearchString(String search) {
         try {
-            PreparedStatement stmt = connection.prepareStatement(SELECT_PICTURE_PATHS_BY_NAME);
-            stmt.setString(1, IMAGES_PATH_REL + "%" + search + "%");
+            // look for filename
+            PreparedStatement stmt1 = connection.prepareStatement(SELECT_PATHS_BY_FILENAME);
+            stmt1.setString(1, IMAGES_PATH_REL + "%" + search + "%");
+            // look for camera manufacturer
+            PreparedStatement stmt2 = connection.prepareStatement(SELECT_PATHS_BY_MAKE);
+            stmt2.setString(1, "%" + search + "%");
+            // look for country
+            PreparedStatement stmt3 = connection.prepareStatement(SELECT_PATHS_BY_COUNTRY);
+            stmt3.setString(1, "%" + search + "%");
+            // look for byLine
+            PreparedStatement stmt4 = connection.prepareStatement(SELECT_PATHS_BY_BYLINE);
+            stmt4.setString(1, "%" + search + "%");
 
-            ResultSet rs = stmt.executeQuery();
+            /* result set containing all paths matching search string in each columns
+            HashSet -> no duplicates :) */
+            HashSet<String> result = new HashSet<>(Collections.emptySet());
 
-            ArrayList<String> results = new ArrayList<>();
-            while(rs.next()) {
-                results.add(rs.getString("path"));
-            }
+            result.addAll(getPathsFromResultSet(stmt1.executeQuery()));
+            stmt1.close();
+            result.addAll(getPathsFromResultSet(stmt2.executeQuery()));
+            stmt2.close();
+            result.addAll(getPathsFromResultSet(stmt3.executeQuery()));
+            stmt3.close();
+            result.addAll(getPathsFromResultSet(stmt4.executeQuery()));
+            stmt4.close();
 
-            stmt.close();
             Logger.debug("Successfully retrieved picture paths from database.");
-            return results;
+            return new ArrayList<>(result);
         } catch (SQLException e) {
             Logger.debug("Failed to retrieve picture paths from database.");
             Logger.trace(e);

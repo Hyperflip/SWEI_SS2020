@@ -33,8 +33,8 @@ public class MockPictureModels {
         pic1.setFocalRatio("f/1.4");
         pic1.setExposureTime("1/659 s");
         pic1.setOrientation("top-left");
-        pic1.setMake("Canon");
-        pic1.setModel("Canon EOS 40D");
+        pic1.setMake("Nikon");
+        pic1.setModel("Nikon D7500");
         // iptc
         pic1.setFileFormat("png");
         pic1.setDateCreated("20200531");
@@ -63,8 +63,8 @@ public class MockPictureModels {
         pic3.setFocalRatio("f/1.5");
         pic3.setExposureTime("1/472 s");
         pic3.setOrientation("top-left");
-        pic3.setMake("Canon");
-        pic3.setModel("Canon EOS 40D");
+        pic3.setMake("Nikon");
+        pic3.setModel("Nikon D7500");
         // iptc
         pic3.setFileFormat("png");
         pic3.setDateCreated("20200530");
@@ -84,7 +84,7 @@ public class MockPictureModels {
         pic4.setFileFormat("png");
         pic4.setDateCreated("20200525");
         pic4.setCountry("austria");
-        pic4.setByLine("Philipp Andert");
+        pic4.setByLine("Alfred Emsenhuber");
         pic4.setCaption("Wunderschönes Restaurant");
 
         PictureModel pic5 = new PictureModel(IMAGES_PATH_REL + "savings.png");
@@ -93,13 +93,13 @@ public class MockPictureModels {
         pic5.setFocalRatio("f/1.6");
         pic5.setExposureTime("1/501 s");
         pic5.setOrientation("top-left");
-        pic5.setMake("Canon");
-        pic5.setModel("Canon EOS 40D");
+        pic5.setMake("Nikon");
+        pic5.setModel("Nikon D7500");
         // iptc
         pic5.setFileFormat("png");
         pic5.setDateCreated("20200531");
         pic5.setCountry("austria");
-        pic5.setByLine("Philipp Andert");
+        pic5.setByLine("Alfred Emsenhuber");
         pic5.setCaption("Wunderschönes Sparschwein");
 
         this.pictures.add(pic1);

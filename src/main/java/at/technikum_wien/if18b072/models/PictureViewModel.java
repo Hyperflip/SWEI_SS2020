@@ -45,6 +45,10 @@ public class PictureViewModel {
         this.picture = picture;
     }
 
+    public PictureModel getPictureModel() {
+        return picture;
+    }
+
     public void updateProperties() {
         pathProperty.set(picture.getPath());
 
@@ -52,7 +56,7 @@ public class PictureViewModel {
         exposureTimeProperty.set(picture.getExposureTime());
         orientionProperty.set(picture.getOrientation());
         makeProperty.set(picture.getMake());
-        modelProperty.set(picture.getMake());
+        modelProperty.set(picture.getModel());
 
         fileFormatProperty.set(picture.getFileFormat());
         dateCreatedProperty.set(picture.getDateCreated());
