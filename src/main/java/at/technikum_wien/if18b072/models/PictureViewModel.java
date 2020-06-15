@@ -1,13 +1,16 @@
 package at.technikum_wien.if18b072.models;
 
 import at.technikum_wien.if18b072.models.PictureModel;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.Image;
 
 public class PictureViewModel {
     // the PictureModel for this ViewModel
-    public PictureModel picture;
-    // property of the image path
+    private PictureModel picture;
+    // property of the image
     public SimpleStringProperty pathProperty;
+    public SimpleObjectProperty<Image> imageProperty;
     // EXIF properties
     public SimpleStringProperty focalRatioProperty;
     public SimpleStringProperty exposureTimeProperty;
@@ -25,6 +28,7 @@ public class PictureViewModel {
         this.picture = picture;
 
         pathProperty = new SimpleStringProperty();
+        imageProperty = new SimpleObjectProperty<>();
 
         focalRatioProperty = new SimpleStringProperty();
         exposureTimeProperty = new SimpleStringProperty();
@@ -51,6 +55,7 @@ public class PictureViewModel {
 
     public void updateProperties() {
         pathProperty.set(picture.getPath());
+        imageProperty.set(new Image("file:" + picture.getPath()));
 
         focalRatioProperty.set(picture.getFocalRatio());
         exposureTimeProperty.set(picture.getExposureTime());

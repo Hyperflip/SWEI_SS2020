@@ -17,9 +17,12 @@ public interface IDatabaseService {
     /* this function is useful for the creation of thumbnails, as it is not
     necessary to get whole PictureModels at this step */
     ArrayList<String> getPathsFromSearchString(String search);
-
     PictureModel getPictureModelFromPath(String path);
 
-    // close DB connection
+    ArrayList<String> getPhotographerEmails();
+    ArrayList<String> getFullNameFromEmail(String email);
+    PhotographerModel getPhotographerFromEmail(String email);
+
+    // TODO: close DB connection
     void close();
 }

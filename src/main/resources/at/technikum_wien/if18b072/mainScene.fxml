@@ -37,15 +37,15 @@
             </Menu>
 
             <Menu text="Edit">
-               <MenuItem text="myItem"/>
+               <MenuItem fx:id="managePhotographers" text="Manage Photographers"/>
             </Menu>
 
             <Menu text="Options">
-               <MenuItem text="myItem"/>
+               <MenuItem text="dunno"/>
             </Menu>
 
             <Menu text="Help">
-               <MenuItem text="myItem"/>
+               <MenuItem text="displayReadMeSomeDay"/>
             </Menu>
 
          </MenuBar>
@@ -57,8 +57,6 @@
       </VBox>
 
    </top>
-
-
 
 
    <center>

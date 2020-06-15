@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.technikum_wien.if18b072.PhotographerDialogController">
+
+    <center>
+
+        <SplitPane orientation="HORIZONTAL">
+
+            <AnchorPane>
+
+                <HBox>
+
+                    <VBox>
+                        <Label>First Name: </Label>
+                        <Label>Last Name: </Label>
+                        <Label>Email address: </Label>
+                        <Label>Birthday: </Label>
+                        <Label>Notes: </Label>
+
+                        <Button fx:id="savePhotographerInfo">Save Info</Button>
+                    </VBox>
+
+                    <VBox>
+                        <TextField fx:id="firstName" />
+                        <TextField fx:id="lastName" />
+                        <Text fx:id="photographerEmail" />
+                        <TextField fx:id="birthday" />
+                        <TextField fx:id="notes" />
+                    </VBox>
+
+                </HBox>
+
+            </AnchorPane>
+
+            <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+
+                <VBox fx:id="photographersScrollPaneVBox" />
+
+            </ScrollPane>
+
+        </SplitPane>
+
+    </center>
+
+</BorderPane>

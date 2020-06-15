@@ -11,14 +11,14 @@ Philipp Andert		02.06.2020		Thumbnail creation	2.30h
 Philipp Andert		04.06.2020		Image selection by
 						clicking on thumbnails	2h
 
-Philipp Andert		13.06.2020		Database connection	2.30h
+Philipp Andert		13.06.2020		Database connection	3h
 						table creation
-
-Philipp Andert		13.06.2020		created insert		0.45h
-						statements
 
 Philipp Andert		14.06.2020		fully switched to	4h
 						database + img search
 						EXIF & IPTC can be
 						displayed + updated
+
+Philipp Andert		15.06.2020		Photographer info	5h
+						+ updating
 

@@ -37,6 +37,7 @@ public class SQLiteService implements IDatabaseService {
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // SELECT STATEMENTS
+    // PICTURE
     // selection by filename
     private static final String SELECT_PATHS_BY_FILENAME =
             "SELECT path FROM pictures " +
@@ -60,12 +61,34 @@ public class SQLiteService implements IDatabaseService {
     private static final String SELECT_PICTURE_BY_PATH =
             "SELECT * FROM pictures WHERE path = ?";
 
-    // UPDATE STATEMENTS
+    // PHOTOGRAPHER
+    // select all emails
+    private static final String SELECT_PHOTOGRAPHER_EMAILS =
+            "SELECT photographerEmail FROM photographers";
 
+    // select full name
+    private static final String SELECT_PHOTOGRAPHER_NAME_BY_EMAIL =
+            "SELECT firstName, lastName FROM photographers " +
+                    "WHERE photographerEmail = ?";
+
+    // select photographer info by email
+    private static final String SELECT_PHOTOGRAPHER_BY_EMAIL =
+            "SELECT * FROM photographers " +
+                    "WHERE photographerEmail = ?";
+
+    // UPDATE STATEMENTS
+    // update picture IPTC info
     private static final String UPDATE_PICTURE_IPTC =
             "UPDATE pictures " +
                     "SET fileFormat = ?, dateCreated = ?, country = ?, byLine = ?, caption = ? " +
                     "WHERE path = ?";
+
+    // update photographer info
+    private static final String UPDATE_PHOTOGRAPHER_INFO =
+            "UPDATE photographers " +
+                    "SET photographerEmail = ?, firstName = ?, lastName = ?, " +
+                    "birthday = ?, notes = ? " +
+                    "WHERE photographerEmail = ?";
 
     private static final String DB_URL = "jdbc:sqlite:sqlite.db";
     private Connection connection;
@@ -155,6 +178,7 @@ public class SQLiteService implements IDatabaseService {
             stmt.setString(5, picture.getCaption());
             stmt.setString(6, picture.getPath());
             stmt.execute();
+            stmt.close();
 
             Logger.debug("Successfully updated picture in database.");
             return true;
@@ -167,6 +191,23 @@ public class SQLiteService implements IDatabaseService {
 
     @Override
     public boolean updatePhotographer(PhotographerModel photographer) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(UPDATE_PHOTOGRAPHER_INFO);
+            stmt.setString(1, photographer.getPhotographerEmail());
+            stmt.setString(2, photographer.getFirstName());
+            stmt.setString(3, photographer.getLastName());
+            stmt.setString(4, photographer.getBirthday());
+            stmt.setString(5, photographer.getNotes());
+            stmt.setString(6, photographer.getPhotographerEmail());
+            stmt.execute();
+            stmt.close();
+
+            Logger.debug("Successfully updated photographer info in database.");
+            return true;
+        } catch (SQLException e) {
+            Logger.debug("Failed at updating photographer info in database.");
+            Logger.trace(e);
+        }
         return false;
     }
 
@@ -250,6 +291,73 @@ public class SQLiteService implements IDatabaseService {
             Logger.trace(e);
             return null;
         }
+    }
+
+    @Override
+    public ArrayList<String> getPhotographerEmails() {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(SELECT_PHOTOGRAPHER_EMAILS);
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<String> result = new ArrayList<>();
+            while(rs.next()) result.add(rs.getString("photographerEmail"));
+            stmt.close();
+
+            Logger.debug("Successfully retrieved all photographer emails from database.");
+            return result;
+        } catch (SQLException e) {
+            Logger.debug("Failed at retrieving all photographer emails from database.");
+            Logger.trace(e);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getFullNameFromEmail(String email) {
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(SELECT_PHOTOGRAPHER_NAME_BY_EMAIL);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<String> result = new ArrayList<>();
+            rs.next();
+            result.add(rs.getString("firstName"));  // first name
+            result.add(rs.getString("lastName"));  // last name
+            stmt.close();
+
+            Logger.debug("Successfully retrieved photographer name from database.");
+            return result;
+        } catch (SQLException e) {
+            Logger.debug("Failed at retrieving photographer name from database.");
+            Logger.trace(e);
+        }
+        return null;
+
+    }
+
+    @Override
+    public PhotographerModel getPhotographerFromEmail(String email) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(SELECT_PHOTOGRAPHER_BY_EMAIL);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            PhotographerModel phm = new PhotographerModel();
+            phm.setPhotographerEmail(email);
+            phm.setFirstName(rs.getString("firstName"));
+            phm.setLastName(rs.getString("lastName"));
+            phm.setBirthday(rs.getString("birthday"));
+            phm.setNotes(rs.getString("notes"));
+            stmt.close();
+
+            Logger.debug("Successfully retrieved PhotographerModel by email from database.");
+            return phm;
+        } catch (SQLException e) {
+            Logger.debug("Failed at retrieving PhotographerModel by email from database.");
+            Logger.trace(e);
+        }
+        return null;
     }
 
     @Override
