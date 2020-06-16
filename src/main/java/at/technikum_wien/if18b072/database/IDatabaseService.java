@@ -3,9 +3,13 @@ package at.technikum_wien.if18b072.database;
 import at.technikum_wien.if18b072.models.PhotographerModel;
 import at.technikum_wien.if18b072.models.PictureModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The interface for a Database Service class.
+ */
 public interface IDatabaseService {
 
     boolean addNewPhotographer(PhotographerModel photographer);
@@ -22,7 +26,7 @@ public interface IDatabaseService {
     ArrayList<String> getPhotographerEmails();
     ArrayList<String> getFullNameFromEmail(String email);
     PhotographerModel getPhotographerFromEmail(String email);
+    ArrayList<String> getPicturePathsFromEmail(String email);
 
-    // TODO: close DB connection
     void close();
 }

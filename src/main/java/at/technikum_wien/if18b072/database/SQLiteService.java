@@ -8,6 +8,9 @@ import org.tinylog.Logger;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * This class implements the DatabaseService interface with sqlite-jdbc functionality.
+ */
 public class SQLiteService implements IDatabaseService {
 
     // CREATE STATEMENTS
@@ -76,6 +79,12 @@ public class SQLiteService implements IDatabaseService {
             "SELECT * FROM photographers " +
                     "WHERE photographerEmail = ?";
 
+    // select picture paths by email
+    private static final String SELECT_PICTURE_PATHS_BY_EMAIL =
+            "SELECT path FROM pictures " +
+                    "JOIN photographers USING(photographerEmail) " +
+                    "WHERE photographerEmail = ?";
+
     // UPDATE STATEMENTS
     // update picture IPTC info
     private static final String UPDATE_PICTURE_IPTC =
@@ -93,6 +102,10 @@ public class SQLiteService implements IDatabaseService {
     private static final String DB_URL = "jdbc:sqlite:sqlite.db";
     private Connection connection;
 
+    /**
+     * The constructor of the service establishes a connection to the database
+     * and calls the method for creating (if not existing) the database tables.
+     */
     public SQLiteService() {
         try {
             connection = DriverManager.getConnection(DB_URL);
@@ -105,6 +118,9 @@ public class SQLiteService implements IDatabaseService {
         createTables();
     }
 
+    /**
+     * This function creates the database tables, if they don't exist yet.
+     */
     private void createTables() {
         try {
             Statement stmt = connection.createStatement();
@@ -119,6 +135,12 @@ public class SQLiteService implements IDatabaseService {
 
     }
 
+    /**
+     * This function inserts a new photographer into the database with
+     * the data from PhotographerModel.
+     * @param photographer
+     * @return
+     */
     @Override
     public boolean addNewPhotographer(PhotographerModel photographer) {
         try {
@@ -139,6 +161,12 @@ public class SQLiteService implements IDatabaseService {
         return false;
     }
 
+    /**
+     * This function inserts a new picture into the database with
+     * the data from PictureModel.
+     * @param picture
+     * @return
+     */
     @Override
     public boolean addNewPicture(PictureModel picture) {
         try {
@@ -167,6 +195,12 @@ public class SQLiteService implements IDatabaseService {
         return false;
     }
 
+    /**
+     * This function updates the data of a picture based on the data from
+     * the given PictureModel.
+     * @param picture
+     * @return
+     */
     @Override
     public boolean updatePicture(PictureModel picture) {
         try {
@@ -189,6 +223,12 @@ public class SQLiteService implements IDatabaseService {
         return false;
     }
 
+    /**
+     * This function updates the data of a photographer based on the data from
+     * the given PhotographerModel.
+     * @param photographer
+     * @return
+     */
     @Override
     public boolean updatePhotographer(PhotographerModel photographer) {
         try {
@@ -211,6 +251,12 @@ public class SQLiteService implements IDatabaseService {
         return false;
     }
 
+    /**
+     * This is a helper function to retrieve all picture paths from a ResultSet.
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     private ArrayList<String> getPathsFromResultSet(ResultSet rs) throws SQLException {
         ArrayList<String> results = new ArrayList<>();
         while(rs.next()) {
@@ -219,6 +265,12 @@ public class SQLiteService implements IDatabaseService {
         return results;
     }
 
+    /**
+     * This function retrieves all paths for pictures whose data matches a searchstring.
+     * It returns a unique set of paths.
+     * @param search
+     * @return
+     */
     @Override
     public ArrayList<String> getPathsFromSearchString(String search) {
         try {
@@ -257,6 +309,12 @@ public class SQLiteService implements IDatabaseService {
         }
     }
 
+    /**
+     * This function retrievs the data for a picture by a give path. It returns
+     * a new PictureModel.
+     * @param path
+     * @return
+     */
     @Override
     public PictureModel getPictureModelFromPath(String path) {
         try {
@@ -293,6 +351,10 @@ public class SQLiteService implements IDatabaseService {
         }
     }
 
+    /**
+     * This function returns all photographer's email addresses.
+     * @return
+     */
     @Override
     public ArrayList<String> getPhotographerEmails() {
         try {
@@ -312,6 +374,11 @@ public class SQLiteService implements IDatabaseService {
         return null;
     }
 
+    /**
+     * This function retrieves the first and last name of a photographer, given their email address.
+     * @param email
+     * @return
+     */
     @Override
     public ArrayList<String> getFullNameFromEmail(String email) {
 
@@ -336,6 +403,12 @@ public class SQLiteService implements IDatabaseService {
 
     }
 
+    /**
+     * This function retrives the data for a photographer, given their email address.
+     * It returns a new PhotographerModel.
+     * @param email
+     * @return
+     */
     @Override
     public PhotographerModel getPhotographerFromEmail(String email) {
         try {
@@ -360,8 +433,43 @@ public class SQLiteService implements IDatabaseService {
         return null;
     }
 
+    /**
+     * This function returns the corresponding paths of the pictures taken by the
+     * photographer specified by their email address.
+     * @param email
+     * @return
+     */
+    @Override
+    public ArrayList<String> getPicturePathsFromEmail(String email) {
+        try {
+            PreparedStatement stmt = connection.prepareStatement(SELECT_PICTURE_PATHS_BY_EMAIL);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<String> result = new ArrayList<>();
+            while(rs.next()) result.add(rs.getString("path"));
+            stmt.close();
+
+            Logger.debug("Successfully retrieved picture paths by email from database.");
+            return result;
+        } catch (SQLException e) {
+            Logger.debug("Failed at retrieving picture paths by email from database.");
+            Logger.trace(e);
+        }
+        return null;
+    }
+
+    /**
+     * This function closes the database connection.
+     */
     @Override
     public void close() {
-
+        try {
+            connection.close();
+            Logger.debug("Successfully closed database connection.");
+        } catch (SQLException e) {
+            Logger.debug("Failed at closing database connection.");
+            Logger.trace(e);
+        }
     }
 }

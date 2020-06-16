@@ -1,5 +1,9 @@
 package at.technikum_wien.if18b072.models;
 
+/**
+ * The PictureModel holds all information of a picture and contains
+ * get/set access for each field.
+ */
 public class PictureModel {
     // relative path to the image file
     private String path;                    // PRIMARY key in database

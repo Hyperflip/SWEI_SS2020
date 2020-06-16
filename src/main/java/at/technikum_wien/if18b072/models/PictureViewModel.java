@@ -5,6 +5,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
 
+/**
+ * The PictureViewModel contains all Simple _ Properties of a PictureModel and
+ * contains get/set access for the underlying PictureModel.
+ */
 public class PictureViewModel {
     // the PictureModel for this ViewModel
     private PictureModel picture;
@@ -53,6 +57,9 @@ public class PictureViewModel {
         return picture;
     }
 
+    /**
+     * This function updates the properties with the current PictureModel.
+     */
     public void updateProperties() {
         pathProperty.set(picture.getPath());
         imageProperty.set(new Image("file:" + picture.getPath()));

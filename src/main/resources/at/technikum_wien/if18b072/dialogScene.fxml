@@ -35,6 +35,8 @@
                         <Text fx:id="photographerEmail" />
                         <TextField fx:id="birthday" />
                         <TextField fx:id="notes" />
+                        <Text>Associated Images:</Text>
+                        <VBox fx:id="photographerInfo" />
                     </VBox>
 
                 </HBox>

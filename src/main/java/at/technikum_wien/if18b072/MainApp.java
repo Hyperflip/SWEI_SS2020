@@ -1,5 +1,6 @@
 package at.technikum_wien.if18b072;
 
+import static at.technikum_wien.if18b072.Constants.*;
 import at.technikum_wien.if18b072.database.SQLiteService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,9 +8,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * This class loads the main scene and launches the stage. It also establishes
+ * an SQLite database connection and closes it before program termination.
+ */
 public class MainApp extends Application {
 
+
+    /**
+     * Loads the scene and sets it and the main stage up.
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("mainScene.fxml"));
@@ -22,9 +32,21 @@ public class MainApp extends Application {
         stage.show();
     }
 
+    /**
+     * Establishes the SQLite database connection and launches the JavaFX application.
+     * @param args
+     */
     public static void main(String[] args) {
-        Constants.DATABASE = new SQLiteService();
+        DATABASE = new SQLiteService();
         launch(args);
     }
 
+    /**
+     * Closes the database connection upon termination.
+     * @throws Exception
+     */
+    @Override
+    public void stop() throws Exception {
+        DATABASE.close();
+    }
 }

@@ -2,6 +2,10 @@ package at.technikum_wien.if18b072.models;
 
 import java.util.Date;
 
+/**
+ * The PhotographerModel holds all information of a photographer and contains
+ * get/set access for each field.
+ */
 public class PhotographerModel {
 
     // only has get access, as it's an auto incrementing value in database

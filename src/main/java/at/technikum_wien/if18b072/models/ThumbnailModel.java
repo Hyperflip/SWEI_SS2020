@@ -1,5 +1,9 @@
 package at.technikum_wien.if18b072.models;
 
+/**
+ * The ThumbnaiLmodel holds all information of a thumbnail and contains
+ * get/set access for each field. It also holds its parent picture's path.
+ */
 public class ThumbnailModel {
 
     private final String path;

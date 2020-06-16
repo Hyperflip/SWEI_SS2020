@@ -2,6 +2,10 @@ package at.technikum_wien.if18b072.models;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * The PhotographerViewModel contains all Simple _ Properties of a PhotographerModel and
+ * contains get/set access for the underlying PhotographerModel.
+ */
 public class PhotographerViewModel {
 
     private PhotographerModel photographer;
@@ -32,6 +36,9 @@ public class PhotographerViewModel {
         return photographer;
     }
 
+    /**
+     * This function updates the properties with the current PhotographerModel.
+     */
     public void updateProperties() {
         photographerEmailProperty.set(photographer.getPhotographerEmail());
         firstNameProperty.set(photographer.getFirstName());

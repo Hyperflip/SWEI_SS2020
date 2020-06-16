@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import static at.technikum_wien.if18b072.Constants.*;
 
+/**
+ * This class holds the mock information for pictures and photographers
+ * and calls the corresponding insert methods of the database service.
+ * It will only be called if the database gets reset.
+ */
 public class MockPictureModels {
     private List<PictureModel> pictures = new ArrayList<PictureModel>();
 
@@ -102,12 +107,6 @@ public class MockPictureModels {
         pic5.setByLine("Alfred Emsenhuber");
         pic5.setCaption("Wunderschönes Sparschwein");
 
-        this.pictures.add(pic1);
-        this.pictures.add(pic2);
-        this.pictures.add(pic3);
-        this.pictures.add(pic4);
-        this.pictures.add(pic5);
-
         // add photographers
         DATABASE.addNewPhotographer(phot1);
         DATABASE.addNewPhotographer(phot2);
@@ -118,27 +117,5 @@ public class MockPictureModels {
         DATABASE.addNewPicture(pic4);
         DATABASE.addNewPicture(pic5);
 
-    }
-
-    public List<PictureModel> getPictureModels() {
-        return this.pictures;
-    }
-
-    public PictureModel getPictureModelFromPath(String path) {
-        // find picture with given path
-        for(PictureModel pm : pictures) {
-            if(path.equals(pm.getPath())) {
-                return pm;
-            }
-        }
-        return null;
-    }
-
-    public List<String> getAllPaths() {
-        ArrayList<String> paths = new ArrayList<>();
-        for(PictureModel pm : pictures) {
-            paths.add(pm.getPath());
-        }
-        return paths;
     }
 }

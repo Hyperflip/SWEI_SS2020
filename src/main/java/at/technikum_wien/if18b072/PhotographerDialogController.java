@@ -17,12 +17,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The JavaFX controller class responsible for the 'Manage photographers' dialog stage.
+ */
 public class PhotographerDialogController implements Initializable {
 
     // list of photographers
     @FXML
     public VBox photographersScrollPaneVBox;
     // photographer info
+    @FXML
+    public VBox photographerInfo;
     @FXML
     public TextField firstName;
     @FXML
@@ -40,6 +45,11 @@ public class PhotographerDialogController implements Initializable {
 
     private ArrayList<String> photographerEmails = new ArrayList<>();
 
+    /**
+     * This function loads up the photographers and sets up the UI elements.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Logger.debug("Initializing PhotographerDialogController");
@@ -52,9 +62,9 @@ public class PhotographerDialogController implements Initializable {
         initializeActivePhotographer();
     }
 
-    /*
-    loads each photographers private key, aka their email addresses
-    */
+    /**
+     * This function loads all photographers email addresses and stores them in a local variable.
+     */
     private void loadPhotographers() {
         // clear
         photographerEmails.clear();
@@ -62,6 +72,9 @@ public class PhotographerDialogController implements Initializable {
         photographerEmails.addAll(DATABASE.getPhotographerEmails());
     }
 
+    /**
+     * This function creates a button for each photographer loaded.
+     */
     private void createPhotographerButtons() {
         for(String email : photographerEmails) {
             // create new button
@@ -74,11 +87,15 @@ public class PhotographerDialogController implements Initializable {
             button.setText(name.get(0) + " " + name.get(1));
             // set event handler
             button.setOnAction(this::handleClickedPhotographerButton);
-
+            // append to UI element
             photographersScrollPaneVBox.getChildren().add(button);
         }
     }
 
+    /**
+     * This function initializes the active PhotographerViewModel and binds its properties
+     * to the corresponding UI elements.
+     */
     private void initializeActivePhotographer() {
         // set activePhotographerViewModel
         activePhotographerViewModel = new PhotographerViewModel(
@@ -95,8 +112,31 @@ public class PhotographerDialogController implements Initializable {
         photographerEmail.textProperty().bindBidirectional(activePhotographerViewModel.photographerEmailProperty);
         birthday.textProperty().bindBidirectional(activePhotographerViewModel.birthdayProperty);
         notes.textProperty().bindBidirectional(activePhotographerViewModel.notesProperty);
+
+        updateAssociatedPictures();
     }
 
+    /**
+     * This function updates the list of pictures shot by the active photographer.
+     */
+    private void updateAssociatedPictures() {
+        // clear
+        photographerInfo.getChildren().clear();
+
+        for(String path : DATABASE.getPicturePathsFromEmail(activePhotographerViewModel
+                .photographerEmailProperty.getValue())) {
+            Text pathText = new Text();
+            pathText.setText(path);
+            photographerInfo.getChildren().add(pathText);
+        }
+    }
+
+    /**
+     * This function handles the click of the photographer buttons, from the photographer's
+     * email address it retrieves a new PhotographerModel from the database and set it for
+     * the active PhotographerViewModel.
+     * @param e
+     */
     private void handleClickedPhotographerButton(Event e) {
         // get email from button id
         String email = ((Button)e.getSource()).getId();
@@ -110,8 +150,18 @@ public class PhotographerDialogController implements Initializable {
 
         // update properties
         activePhotographerViewModel.updateProperties();
+
+        // update associated pictures
+        updateAssociatedPictures();
     }
 
+    /**
+     * This function handles the click event of the 'Save Photographer Info' buttom. It
+     * sets the new info to the active PhotographerModel and updates the active
+     * PhotographerViewModel's properties based on the new PhotographerModel.
+     * It also synchronizes with the database.
+     * @param e
+     */
     private void handleSavePhotographerInfo(Event e) {
         // PhotographerModel to be updated
         PhotographerModel phm = activePhotographerViewModel.getPhotographerModel();

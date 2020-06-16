@@ -29,6 +29,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
 
+/**
+ * The JavaFX controller class responsible for the main stage.
+ */
 public class FXMLController implements Initializable {
 
     // top menu
@@ -77,6 +80,10 @@ public class FXMLController implements Initializable {
 
     private PictureViewModel activePictureViewModel;
 
+    /**
+     * This function prepares event handling and general settings for the
+     * UI elements of the main stage.
+     */
     private void prepareUI() {
 
         // set event for menu item managePhotographers
@@ -96,6 +103,9 @@ public class FXMLController implements Initializable {
         imgActive.fitHeightProperty().bind(imgActiveContainer.heightProperty());
     }
 
+    /**
+     * This function loads the thumbnail paths for each picture in the database.
+     */
     private void loadThumbnails() {
 
         // clear
@@ -111,6 +121,9 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * This function fills the scrollpane at the bottom of the scene with the loaded thumbnails.
+     */
     private void updateScrollPane() {
 
         // clear
@@ -131,6 +144,10 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * This function initializes the active picture's PictureViewModel and binds the properties to
+     * the corresponding UI elements.
+     */
     private void initializeActivePicture() {
         // set activePictureViewModel
         activePictureViewModel = new PictureViewModel(
@@ -158,6 +175,12 @@ public class FXMLController implements Initializable {
         model.textProperty().bind(activePictureViewModel.modelProperty);
     }
 
+    /**
+     * This function handles the click event of the 'Save IPTC Info" button.
+     * It updates the underlying data for the active PhotographerViewModel and
+     * synchronizes the changes with the database.
+     * @param e
+     */
     private void handleSaveIPTC(Event e) {
         // picture model to be updated
         PictureModel pm = activePictureViewModel.getPictureModel();
@@ -173,6 +196,13 @@ public class FXMLController implements Initializable {
         e.consume();
     }
 
+    /**
+     * This function handles the click of a thumbnail's ImageView, it retrieves
+     * a new PictureModel for the thumbnails parent picture and sets it as the
+     * new PictureModel of the active PictureViewModel.
+     * @param e
+     * @param thvm
+     */
     private void handleClickedThumbnail(Event e, ThumbnailViewModel thvm) {
         // set new PictureModel for the active ViewModel
         activePictureViewModel.setPictureModel(
@@ -189,6 +219,11 @@ public class FXMLController implements Initializable {
         e.consume();
     }
 
+    /**
+     * This function handles the click event of the 'Manage Photographers' menu item.
+     * It loads a new scene and sets it to a new stage, the dialog for the photographer management.
+     * @param e
+     */
     private void handleClickedManagePhotographers(Event e) {
         Logger.debug("Initializing 'Manage Photographers' dialog.");
 
@@ -216,6 +251,12 @@ public class FXMLController implements Initializable {
         e.consume();
     }
 
+    /**
+     * This function calls the corresponding class methods to load up the pictures
+     * and initialize the UI elements.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

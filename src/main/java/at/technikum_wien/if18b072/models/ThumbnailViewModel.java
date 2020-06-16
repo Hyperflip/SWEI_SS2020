@@ -3,6 +3,9 @@ package at.technikum_wien.if18b072.models;
 import at.technikum_wien.if18b072.models.ThumbnailModel;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * The ThumbnailViewModel contains all Simple _ Properties of a ThumbnailModel.
+ */
 public class ThumbnailViewModel {
 
     public SimpleStringProperty parentPicturePathProperty;

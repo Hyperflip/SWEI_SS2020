@@ -9,9 +9,20 @@ import java.io.File;
 
 import static at.technikum_wien.if18b072.Constants.*;
 
+/**
+ * This class handles the creation of thumbnails.
+ */
 public class ThumbnailFactory {
 
+    /**
+     * This function returns a new ThumbnailModel. It either tries to locate an existing thumbnail
+     * or calls the function to create a new one, based on the input path of the original picture.
+     * @param inputPath
+     * @return
+     */
     public ThumbnailModel getThumbnailModel(String inputPath) {
+
+        System.out.println(inputPath);
 
         String outputPath = THUMBS_PATH_REL + inputPath.substring(IMAGES_PATH_REL.length());
         String extension = inputPath.substring(inputPath.lastIndexOf(".") + 1);
@@ -30,7 +41,14 @@ public class ThumbnailFactory {
         return new ThumbnailModel(outputPath, inputPath, extension);
     }
 
-    // creates a thumbnail image scaled by 0.25
+    /**
+     * This function creates a new thumbnail with size 0.25 of the original picture, given
+     * the original picture path.
+     * @param inputPath
+     * @param outputPath
+     * @param extension
+     * @throws Exception
+     */
     private void createThumbnail(String inputPath, String outputPath, String extension) throws Exception {
         try {
             // create file from input path
