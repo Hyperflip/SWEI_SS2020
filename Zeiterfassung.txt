@@ -22,3 +22,6 @@ Philipp Andert		14.06.2020		fully switched to	4h
 Philipp Andert		15.06.2020		Photographer info	5h
 						+ updating
 
+Philipp Andert		16.06.2020		Show Photographer's	1.5h
+						Pics, Javadoc
+
