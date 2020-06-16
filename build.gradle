@@ -7,6 +7,13 @@ plugins {
 group 'at.technikum_wien.if18b072'
 version '1.0-SNAPSHOT'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'at.technikum_wien.if18b072.MainApp'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 sourceCompatibility = 1.14
 targetCompatibility = 1.14
 
