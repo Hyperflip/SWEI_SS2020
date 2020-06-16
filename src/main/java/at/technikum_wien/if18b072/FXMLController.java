@@ -1,5 +1,6 @@
 package at.technikum_wien.if18b072;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +19,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,7 +43,11 @@ public class FXMLController implements Initializable {
     @FXML
     public MenuBar topMenuBar;
     @FXML
+    public MenuItem showImageFolder;
+    @FXML
     public MenuItem managePhotographers;
+    @FXML
+    public MenuItem visitGithub;
     // searchbar
     @FXML
     public TextField searchBar;
@@ -86,8 +95,14 @@ public class FXMLController implements Initializable {
      */
     private void prepareUI() {
 
+        // set event for menu item showImageFolder
+        showImageFolder.setOnAction(this::handleClickedShowImageFolder);
+
         // set event for menu item managePhotographers
         managePhotographers.setOnAction(this::handleClickedManagePhotographers);
+
+        // ser event for menu item visitGithub
+        visitGithub.setOnAction(this::handleClickedVisitGithub);
 
         // set event for searchbar
         searchBar.setOnKeyReleased(event -> {
@@ -246,6 +261,41 @@ public class FXMLController implements Initializable {
             Logger.debug("Failed at loading new scene (dialogScene.fxml).");
             Logger.trace(ex);
 
+        }
+
+        e.consume();
+    }
+
+    /**
+     * This function handles the click event on the menu item showImageFolder.
+     * It opens an alert with the relative path to the images.
+     * @param e
+     */
+    private void handleClickedShowImageFolder(Event e) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Relative path to images:");
+        alert.setContentText(IMAGES_PATH_REL);
+
+        alert.showAndWait();
+
+        e.consume();
+    }
+
+    /**
+     * This function handles the click event on the menu item visitGithub.
+     * It opens the GitHub repo in the default browser.
+     * @param e
+     */
+    private void handleClickedVisitGithub(Event e) {
+        String urlString = "https://github.com/Hyperflip/SWEI_SS2020";
+
+        try {
+            Desktop.getDesktop().browse(new URL(urlString).toURI());
+            Logger.debug("Successfully opened GitHub page.");
+        } catch (Exception ex){
+            Logger.debug("Failed at opening GitHub page.");
+            Logger.trace(ex);
         }
 
         e.consume();

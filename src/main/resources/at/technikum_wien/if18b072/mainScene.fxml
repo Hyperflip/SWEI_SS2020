@@ -12,11 +12,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
@@ -33,19 +30,15 @@
          <MenuBar fx:id="topMenuBar">
 
             <Menu text="File">
-               <MenuItem text="Show Image Folder"/>
+               <MenuItem fx:id="showImageFolder" text="Show Image Folder"/>
             </Menu>
 
             <Menu text="Edit">
                <MenuItem fx:id="managePhotographers" text="Manage Photographers"/>
             </Menu>
 
-            <Menu text="Options">
-               <MenuItem text="Options"/>
-            </Menu>
-
             <Menu text="Help">
-               <MenuItem text="Readme"/>
+               <MenuItem fx:id="visitGithub" text="Visit GitHub"/>
             </Menu>
 
          </MenuBar>
@@ -134,12 +127,5 @@
       </SplitPane>
 
    </center>
-
-
-   <Label fx:id="label"/>
-
-   <bottom>
-      <Button fx:id="button"/>
-   </bottom>
 
 </BorderPane>
