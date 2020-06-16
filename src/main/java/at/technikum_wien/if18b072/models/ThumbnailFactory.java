@@ -22,8 +22,6 @@ public class ThumbnailFactory {
      */
     public ThumbnailModel getThumbnailModel(String inputPath) {
 
-        System.out.println(inputPath);
-
         String outputPath = THUMBS_PATH_REL + inputPath.substring(IMAGES_PATH_REL.length());
         String extension = inputPath.substring(inputPath.lastIndexOf(".") + 1);
 
